@@ -1,0 +1,91 @@
+<h1>Create New User!</h1>
+
+<div class="inner-content">
+  <form nz-form [formGroup]="empForm" nzLayout="horizontal" (ngSubmit)="createEmpForm()">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired nzFor="name">Name</nz-form-label>
+      <nz-form-control [nzSpan]="14" [nzErrorTip]="nameErrorTpl">
+        <input type="text" nz-input formControlName="name" placeholder="Name">
+        <ng-template #nameErrorTpl let-control>
+          <div *ngIf="control.hasError('required')">
+            This Field is required!
+          </div>
+          <div *ngIf="control.hasError('serverError')">
+              {{ control.errors['serverError']}}
+          </div>
+        </ng-template>
+      </nz-form-control>
+  </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="10" nzRequired nzFor="email">Login Email</nz-form-label>
+        <nz-form-control [nzSpan]="14" [nzErrorTip]="emailErrorTpl">
+          <input type="email" nz-input formControlName="email" placeholder="Email" (blur)="isEmailExists($event)">
+          <ng-template #emailErrorTpl let-control>
+            <div *ngIf="control.hasError('required')">
+              This Field is required!
+            </div>
+            <div *ngIf="control.hasError('serverError')">
+                {{ control.errors['serverError']}}
+            </div>
+          </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="10" nzRequired  nzFor="password">Password</nz-form-label>
+        <nz-form-control [nzSpan]="14" [nzErrorTip]="passErrorTpl">
+            <input type="password" nz-input formControlName="password" placeholder="Password">
+            <ng-template #passErrorTpl let-control>
+              <div *ngIf="control.hasError('required')">
+                This Field is required!
+              </div>
+              <div *ngIf="control.hasError('serverError')">
+                  {{ control.errors['serverError']}}
+              </div>
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>Role</nz-form-label>
+      <nz-form-control [nzSpan]="14" [nzErrorTip]="roleErrorTpl">
+          <nz-select nzPlaceHolder="Select a Role" formControlName="role_id" (ngModelChange)="showCo($event)">
+              <nz-option nzValue="1" nzLabel="Tele Caller"></nz-option>
+              <nz-option nzValue="2" nzLabel="Backend"></nz-option>
+              <nz-option nzValue="3" nzLabel="Co-Ordinator"></nz-option>
+              <nz-option nzValue="4" nzLabel="Administrator"></nz-option>
+          </nz-select>
+          <ng-template #roleErrorTpl let-control>
+              <div *ngIf="control.hasError('required')">
+                  Please input your Role
+              </div>
+          </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzRequired>Products</nz-form-label>
+      <nz-form-control [nzSpan]="14" [nzErrorTip]="productErrorTpl">
+        <nz-select
+        [nzMaxTagCount]="10"
+        nzMode="multiple"
+        nzPlaceHolder="Select Products"
+        formControlName="products"
+        >
+          <nz-option *ngFor="let item of listOfProducts" [nzLabel]="item" [nzValue]="item"></nz-option>
+        </nz-select>
+        <ng-template #productErrorTpl let-control>
+          <div *ngIf="control.hasError('required')">
+              Please input your Products
+          </div>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-control>
+            <div class="d-flex align-items-center justify-content-between">
+                <button [nzLoading]="isSubmitted" [disabled]="!empForm.valid" nz-button class="login-form-button" [nzType]="'primary'">Submit</button>
+            </div>
+        </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+

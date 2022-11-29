@@ -1,11 +1,4 @@
-<h1>Users!</h1>
-
-<button nz-button nzType="primary" (click)="openComponent()">Use Component</button>
-
-<app-employee-list></app-employee-list>
-
-<div class="inner-content" style="display:none">
-  <form nz-form [formGroup]="empForm" nzLayout="horizontal" (ngSubmit)="createEmpForm()">
+ <form nz-form [formGroup]="empForm" nzLayout="horizontal" (ngSubmit)="createEmpForm()">
     <nz-form-item>
       <nz-form-label [nzSpan]="10" nzRequired nzFor="name">Name</nz-form-label>
       <nz-form-control [nzSpan]="14" [nzErrorTip]="nameErrorTpl">
@@ -136,5 +129,3 @@
     </nz-form-control>
     </nz-form-item>
   </form>
-</div>
-

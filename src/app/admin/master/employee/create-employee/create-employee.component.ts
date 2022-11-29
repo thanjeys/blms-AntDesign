@@ -1,20 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { NzDrawerRef } from 'ng-zorro-antd/drawer';
 import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { EmployeeService } from 'src/app/__services/admin/employee.service';
 
-// import { Input, ViewChild } from '@angular/core';
-import { NzDrawerService } from 'ng-zorro-antd/drawer';
-import { CreateEmployeeComponent } from './create-employee/create-employee.component';
-
-
 @Component({
-  selector: 'app-employee',
-  templateUrl: './employee.component.html',
-  styleUrls: ['./employee.component.scss']
+  selector: 'app-create-employee',
+  templateUrl: './create-employee.component.html',
+  styleUrls: ['./create-employee.component.scss']
 })
-export class EmployeeComponent implements OnInit {
+export class CreateEmployeeComponent implements OnInit {
+
+  @Input() inputData : Number = 0;
 
   empForm!: FormGroup;
   isSubmitted: boolean = false;
@@ -25,13 +23,11 @@ export class EmployeeComponent implements OnInit {
   listOfSelectedProducts = ['a10', 'c12'];
   listofCos: any[] = [];
 
-  inputDatas = 12;
-
   constructor(
     private fb: FormBuilder,
     private empService: EmployeeService,
     private message: NzMessageService,
-    private drawerService: NzDrawerService
+    private drawerRef: NzDrawerRef<string>
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +41,7 @@ export class EmployeeComponent implements OnInit {
       products: [ null, [Validators.required] ],
       status: [ false]
     })
-
+    console.log('Ng On Init', this.inputData);
     this.listOfProducts = ['Home', 'Personal', 'LAP', 'Car Loan'];
   }
 
@@ -105,39 +101,9 @@ export class EmployeeComponent implements OnInit {
 
   }
 
-
-  drawerVisible = false;
-
-  open(): void {
-    this.drawerVisible = true;
-  }
   close(): void {
-    this.drawerVisible = false;
+    this.drawerRef.close(this.inputData);
   }
-
-  openComponent(): void {
-    const drawerRef = this.drawerService.create({
-      nzTitle: 'Create User',
-      nzSize: 'large',
-      nzContent: CreateEmployeeComponent,
-      nzWidth: 500,
-      nzContentParams: {
-        inputData: this.inputDatas
-      }
-    });
-
-    drawerRef.afterOpen.subscribe(() => {
-      console.log('Drawer(Component) open');
-    });
-
-    drawerRef.afterClose.subscribe(data => {
-      console.log(data);
-      if (typeof data === 'string') {
-        // this.inputDatas = data;
-      }
-    });
-  }
-
 
 
 }

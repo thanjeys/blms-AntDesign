@@ -2,8 +2,8 @@
 
 <button nz-button nzType="primary" (click)="openComponent()">Use Component</button>
 
-<app-employee-list></app-employee-list>
-
+<!-- <app-employee-list></app-employee-list> -->
+<app-employes-table></app-employes-table>
 <div class="inner-content" style="display:none">
   <form nz-form [formGroup]="empForm" nzLayout="horizontal" (ngSubmit)="createEmpForm()">
     <nz-form-item>
@@ -23,7 +23,7 @@
   <nz-form-item>
     <nz-form-label [nzSpan]="10" nzRequired>Mobile</nz-form-label>
     <nz-form-control [nzSpan]="14" [nzErrorTip]="mobileErrorTpl">
-        <input nz-input formControlName="mobile" placeholder="Mobile" type="text" />
+        <input nz-input formControlName="mobile" placeholder="Mobile" type="tel" pattern="[0-9]{10}" />
         <ng-template #mobileErrorTpl let-control>
             <div *ngIf="control.hasError('required')">
                 Please enter valid Mobile number

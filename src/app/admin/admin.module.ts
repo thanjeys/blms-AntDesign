@@ -18,9 +18,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { AgGridModule } from 'ag-grid-angular';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 import { CreateEmployeeComponent } from './master/employee/create-employee/create-employee.component';
 import { EmployeeListComponent } from './master/employee/employee-list/employee-list.component';
+import { EmployesTableComponent } from './master/employee/employes-table/employes-table.component';
 
 const antdModule= [
   NzFormModule,
@@ -31,7 +33,8 @@ const antdModule= [
   NzMessageModule,
   NzSelectModule,
   NzSwitchModule,
-  NzDrawerModule
+  NzDrawerModule,
+  NzTableModule
 ]
 
 @NgModule({
@@ -40,7 +43,8 @@ const antdModule= [
     BasicformComponent,
     EmployeeComponent,
     CreateEmployeeComponent,
-    EmployeeListComponent
+    EmployeeListComponent,
+    EmployesTableComponent
   ],
   imports: [
     CommonModule,

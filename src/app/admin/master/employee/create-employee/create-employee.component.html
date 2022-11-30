@@ -16,7 +16,7 @@
   <nz-form-item>
     <nz-form-label [nzSpan]="10" nzRequired>Mobile</nz-form-label>
     <nz-form-control [nzSpan]="14" [nzErrorTip]="mobileErrorTpl">
-        <input nz-input formControlName="mobile" placeholder="Mobile" type="text" />
+        <input nz-input formControlName="mobile" maxlength="10" placeholder="Mobile" type="text" />
         <ng-template #mobileErrorTpl let-control>
             <div *ngIf="control.hasError('required')">
                 Please enter valid Mobile number
@@ -100,7 +100,7 @@
         nzPlaceHolder="Select Products"
         formControlName="products"
         >
-          <nz-option *ngFor="let item of listOfProducts" [nzLabel]="item" [nzValue]="item"></nz-option>
+          <nz-option *ngFor="let item of listOfProducts" [nzLabel]="item.name" [nzValue]="item.id"></nz-option>
         </nz-select>
         <ng-template #productErrorTpl let-control>
           <div *ngIf="control.hasError('required')">
@@ -113,7 +113,13 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="10" nzRequired  nzFor="status">Status</nz-form-label>
+      <nz-form-label [nzSpan]="10" nzFor="outside_leads">Outside Leads</nz-form-label>
+      <nz-form-control [nzSpan]="14">
+        <nz-switch formControlName="outside_leads"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="10" nzFor="status">Status</nz-form-label>
       <nz-form-control [nzSpan]="14">
         <nz-switch formControlName="status"></nz-switch>
       </nz-form-control>

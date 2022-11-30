@@ -5,6 +5,10 @@ import { finalize } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { EmployeeService } from 'src/app/__services/admin/employee.service';
 
+interface Product {
+  name: string,
+  id: number
+}
 @Component({
   selector: 'app-create-employee',
   templateUrl: './create-employee.component.html',
@@ -19,7 +23,7 @@ export class CreateEmployeeComponent implements OnInit {
   isFormValid: boolean = false;
   isCoInputField: boolean = false;
 
-  listOfProducts: string[] = [];
+  listOfProducts: Product[] = [];
   listOfSelectedProducts = ['a10', 'c12'];
   listofCos: any[] = [];
 
@@ -33,34 +37,39 @@ export class CreateEmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.empForm = this.fb.group({
       name: [null, [Validators.required] ],
-      mobile: [null, [Validators.required] ],
+      mobile: [ 9842202512, [Validators.required] ],
       email: [ null, [Validators.required, Validators.email] ],
       password: [ null, [Validators.required, Validators.minLength(8)] ],
       role_id: [ null, [Validators.required] ],
       coordinator: [],
       products: [ null, [Validators.required] ],
-      status: [ false]
+      outside_leads: [ false],
+      status: [ false],
+
     })
     console.log('Ng On Init', this.inputData);
-    this.listOfProducts = ['Home', 'Personal', 'LAP', 'Car Loan'];
+    this.listOfProducts = [
+      { id: 1, name: 'Personal Loan'},
+      { id: 2, name: 'Housing Loan'},
+      { id: 3, name: 'LAP'},
+      { id: 4, name: 'PL Top Up'},
+    ];
   }
 
   showCoInput(roleId: any) {
-
     if (roleId == 1 || roleId == 2) {
       this.isCoInputField = true;
       this.empForm.controls['coordinator'].setValidators([Validators.required]);
-
       this.listofCos = [
-        { id : 2, name: "Ram"},
-        { id : 3, name: "Kumar"},
-        { id : 4, name: "Ravi"},
+        { id : 1, name: "Ram"},
+        { id : 2, name: "Kumar"},
+        { id : 3, name: "Ravi"},
       ];
-
     } else {
       this.isCoInputField = false;
+      this.empForm.controls['coordinator'].clearValidators()
     }
-
+    this.empForm.controls['coordinator'].updateValueAndValidity();
   }
 
   createEmpForm(): void
@@ -73,14 +82,17 @@ export class CreateEmployeeComponent implements OnInit {
     console.log(this.empForm.value);
 
     if (this.empForm.valid){
+      console.log('valid form');
       this.isSubmitted = true
       this.empService.storeEmployee(this.empForm.value)
       .pipe(finalize(() => this.isSubmitted = false))
       .subscribe({
         next: (res: any) => {
           this.message.create('success', res.message);
+          this.close();
         },
         error: (err: any) => {
+          console.log(err.error);
           if(err.status === 422) {
             const validatonErrors = err.error.errors;
             Object.keys(validatonErrors).forEach( prop => {
